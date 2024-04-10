@@ -11,7 +11,7 @@ de l'utilisateur. Vous disposez de trois séances pratiques pour construire ce s
 
 Les principales tâches du projet sont présentées ci-dessous :
 
-1.  Collecte de données
+1.  Collecte de données 
 2.  Étiquetage et annotation
 3.  Analyses de données
 4.  Visualisation des données

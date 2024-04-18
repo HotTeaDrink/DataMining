@@ -1,0 +1,202 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: front-deployment
+spec:
+  selector:
+    matchLabels:
+      app: front
+  replicas: 2 
+  template:
+    metadata:
+      labels:
+        app: front
+    spec:
+      containers:
+      - name: front
+        image: registry.cpe.granux.fr/simian-saga/frontend:latest
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "250m"
+          limits:
+            memory: "2Gi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 15
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 15
+          periodSeconds: 10
+        env:
+        - name: API_URL
+          value: "https://simiansaga-back.k8s.granux.fr"
+      imagePullSecrets:
+      - name: regcred
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: front-service
+spec:
+  selector:
+    app: front
+  ports:
+    - port: 80 # Default port for image
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: front-deploy-ingress
+spec:
+  rules:
+  - host: simiansaga-front.k8s.granux.fr
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: front-service
+            port:
+              number: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bdd-deployment
+spec:
+  selector:
+    matchLabels:
+      app: bdd
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: bdd
+    spec:
+      containers:
+      - name: bdd
+        image: postgres:latest
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "250m"
+          limits:
+            memory: "2Gi"
+            cpu: "500m"
+        livenessProbe:
+          tcpSocket:
+            port: 5432
+          initialDelaySeconds: 15
+          periodSeconds: 10
+        readinessProbe:
+          tcpSocket:
+            port: 5432
+          initialDelaySeconds: 15
+          periodSeconds: 10        
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_DB
+          value: "jcorporation"
+        - name: POSTGRES_USER
+          value: "jcorporation"
+        - name: POSTGRES_PASSWORD
+          value: "jcorporation"
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: bdd-service
+spec:
+  selector:
+    app: bdd
+  ports:
+    - port: 5432 # Default port for image
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: back-deployment
+spec:
+  selector:
+    matchLabels:
+      app: back
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: back
+    spec:
+      containers:
+      - name: back
+        image: registry.cpe.granux.fr/simian-saga/backend:latest
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+        livenessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 15
+          periodSeconds: 10
+        readinessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 15
+          periodSeconds: 10         
+        ports:
+        - containerPort: 8080
+        env: 
+        - name: JDBC_URL
+          value: "bdd-service"
+        - name: JDBC_PORT 
+          value: "5432"
+        - name: JDBC_DB
+          value: "jcorporation"
+        - name: JDBC_USER
+          value: "jcorporation"
+        - name: JDBC_PASSWORD
+          value: "jcorporation"
+      imagePullSecrets:
+      - name: regcred
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: back-service
+spec:
+  selector:
+    app: back
+  ports:
+    - port: 8080 # Default port for image
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: back-deploy-ingress
+spec:
+  rules:
+  - host: simiansaga-back.k8s.granux.fr
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: back-service
+            port:
+              number: 8080
+---

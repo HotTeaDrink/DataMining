@@ -34,12 +34,28 @@ def download_image(url):
                 shutil.copyfileobj(request.raw, image)
             
             print("[DEBUG] Image saved successfully.")
+
+            # Send the path of the downloaded image to RabbitMQ for analysis
+            send_image_path_to_queue(filename)  # New function call
     except IncompleteRead as e:
         print(f" [!] Error: Incomplete read occurred: {e}")
     except requests.exceptions.RequestException as e:
         print(f" [!] Error: Request failed: {e}")
 
     return request.status_code if 'request' in locals() else None
+
+def send_image_path_to_queue(path):
+    connection = pika.BlockingConnection(pika.ConnectionParameters(host='rabbitmq'))
+    channel = connection.channel()
+
+    channel.queue_declare(queue='image_paths')
+
+    channel.basic_publish(exchange='',
+                          routing_key='image_paths',
+                          body=path)
+    print(f"[DEBUG] Image path sent to RabbitMQ: {path}")
+
+    connection.close()
 
 def clear_downloads_directory():
     # Clear 'downloads' directory if it exists

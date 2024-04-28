@@ -10,13 +10,48 @@ services:
       - ./shared_data:/home/jovyan/work/downloads
     deploy:
       mode: replicated
-      replicas: 4
+      replicas: 1
     depends_on:
       - rabbitmq
+  
+  metadata:
+    build: ./docker/Metadata
+    volumes:
+      - ./shared_data:/home/jovyan/work/downloads
+    deploy:
+      mode: replicated
+      replicas: 1
+    depends_on:
+      - consumer
+      - rabbitmq
+      - mongodb
+
+  flask_app:
+    build: ./docker/flask_app
+    volumes:
+      - ./shared_data:/app/downloads
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongodb
+
+  usergenerate:
+      build: ./docker/fakeUser
+      depends_on:
+        - metadata
+        - mongodb
 
   rabbitmq:
     image: rabbitmq:3-management
     ports:
       - "5672:5672"
       - "15672:15672"
+    restart: unless-stopped
+
+  mongodb:
+    image: mongo
+    volumes:
+      - ./mongo_data:/data/db
+    ports:
+      - "27017:27017"
     restart: unless-stopped

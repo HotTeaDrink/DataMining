@@ -1,0 +1,37 @@
+body {
+    font-family: sans-serif;  /* Set a default font */
+    margin: 2rem;  /* Add some margin around the body */
+  }
+  
+  h1 {
+    text-align: center;  /* Center align the title */
+  }
+  
+  .image-container {
+    display: flex;  /* Arrange images horizontally */
+    flex-wrap: wrap;  /* Allow images to wrap onto multiple lines */
+    gap: 1rem;  /* Add some space between images */
+  }
+  
+  .image-item {
+    text-align: center;  /* Center align text below each image */
+    margin-bottom: 1rem;  /* Add some space below each image */
+  }
+  
+  input[type="text"] {
+    width: 100%;  /* Make input fields fill the available space */
+    padding: 0.5rem;  /* Add some padding to input fields */
+    border: 1px solid #ccc;  /* Add a border to input fields */
+  }
+  
+  button[type="submit"] {
+    display: block;  /* Make the submit button a block element */
+    margin: 1rem auto;  /* Center the submit button horizontally */
+    padding: 0.75rem 1rem;  /* Add some padding to the button */
+    background-color: #4CAF50;  /* Set a green background color */
+    color: white;  /* Set white text color */
+    border: none;  /* Remove border from the button */
+    border-radius: 5px;  /* Add some rounded corners */
+    cursor: pointer;  /* Change cursor to indicate clickability */
+  }
+  

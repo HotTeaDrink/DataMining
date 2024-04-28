@@ -1,0 +1,19 @@
+FROM jupyter/pyspark-notebook:latest
+
+# Copy your Python script into the image
+COPY metadata.py /home/jovyan/work/
+
+# Set the working directory
+WORKDIR /home/jovyan/work/
+
+# Install additional dependencies if needed
+RUN pip install pika
+
+RUN pip install pillow 
+
+RUN pip install scikit-learn 
+
+RUN pip install pymongo
+
+# Command to run your Python script
+CMD ["sh", "-c", "sleep 20 && python metadata.py"]

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Tagging</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    .image-container {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .image-item {
+      margin-right: 10px;
+      margin-bottom: 10px;
+    }
+    .image-item img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+    }
+  </style>
+</head>
+<body>
+    <h1>Image Tagging</h1>
+    <form action="/add_tags" method="post">
+      <div class="image-container">
+        {% for image_data in images_data %}
+          <div class="image-item">
+            <img src="{{ image_data.image_url|urlencode }}" alt="Image">
+            <input type="text" name="{{ image_data.image_name }}" placeholder="Add tags">
+          </div>
+        {% endfor %}
+      </div>
+      <button type="submit">Submit</button>
+    </form>
+    {% if message %}
+      <p>{{ message }}</p>
+    {% endif %}
+  </body>
+</html>

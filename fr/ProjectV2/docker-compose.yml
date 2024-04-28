@@ -25,6 +25,12 @@ services:
       - consumer
       - rabbitmq
       - mongodb
+  analyze:
+    build: ./docker/Analyze
+    depends_on:
+      - consumer
+      - rabbitmq
+      - mongodb
 
   flask_app:
     build: ./docker/flask_app
@@ -37,6 +43,8 @@ services:
 
   usergenerate:
       build: ./docker/fakeUser
+      volumes:
+      - ./shared_data:/app/downloads
       depends_on:
         - metadata
         - mongodb

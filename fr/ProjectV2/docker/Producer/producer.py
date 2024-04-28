@@ -23,7 +23,7 @@ def gather_image_links():
                    wdt:P18 ?image.
      SERVICE wikibase:label { bd:serviceParam wikibase:language "fr". }
     }
-    LIMIT 100"""
+    LIMIT 1"""
 
     results = get_results(endpoint_url, query)
     links = []

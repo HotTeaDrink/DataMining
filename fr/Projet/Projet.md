@@ -5,13 +5,15 @@
 - Mise en place d'un [système de recommandation](https://en.wikipedia.org/wiki/Recommender_system) bien commenté en Python
 - Rédaction du rapport de projet.
 
+## Projet partie 1
+
 
 L'objectif de ce projet est de recommander des images en fonction des préférences
 de l'utilisateur. Vous disposez de trois séances pratiques pour construire ce système. Vous devez vous assurer que toutes les tâches liées à l'acquisition, l'annotation, l'analyse et la visualisation des données sont automatisées.
 
 Les principales tâches du projet sont présentées ci-dessous :
 
-1.  Collecte de données 
+1.  Collecte de données
 2.  Étiquetage et annotation
 3.  Analyses de données
 4.  Visualisation des données
@@ -22,7 +24,7 @@ Les principales tâches du projet sont présentées ci-dessous :
 
 ![Architecture](../../images/Project-Architecture.png "Architecture")
 
-## Collecte de données
+### Collecte de données
 
 Vous devez collecter et télécharger un ensemble d'images. Vous avez les tâches suivantes à programmer, en automatisant le processus autant que possible :
 
@@ -33,7 +35,7 @@ Vous devez collecter et télécharger un ensemble d'images. Vous avez les tâche
     .png, etc.), l'orientation de l'image (paysage, portrait, carré, etc.),
     date de création, modèle d'appareil photo, etc. dans un ou plusieurs fichiers JSON. Vous pouvez utiliser les informations [Exif](https://en.wikipedia.org/wiki/Exif) présentes dans les fichiers d'images.
 
-## Étiquetage et annotation
+### Étiquetage et annotation
 
 Pour cette tâche, vous devez rechercher les sources disposant d'informations supplémentaires
 comme les balises, les catégories, etc.
@@ -50,7 +52,7 @@ Par exemple, les noms de couleurs, \#cat, \#fleur, \#sous-fleur, rose etc.
 Comment prévoyez-vous de traiter ces tags ? Est-il possible d'automatiser ce
 processus ?
 
-## Analyses de données
+### Analyses de données
 
 Demandez à l'utilisateur de sélectionner quelques images et d'ajouter des balises. Pour chaque utilisateur, vous êtes
 maintenant prêt à construire un profil de préférences d'utilisateur, basé sur cette sélection.
@@ -72,7 +74,7 @@ Votre prochain objectif est d'analyser les informations des utilisateurs et leur
 les images préférées. Comment avez-vous créé des utilisateurs aléatoires ? Combien d'utilisateurs avez-vous
 créer ? Quelles informations avez-vous stockées pour chaque utilisateur ? Quels types d'analyses avez-vous effectuées ?
 
-## Visualisation des données
+### Visualisation des données
 
 Dans cette tâche, votre objectif est de visualiser les différentes caractéristiques de
 toutes les images téléchargées.
@@ -84,15 +86,15 @@ toutes les images téléchargées.
 
 Les utilisateurs peuvent également visualiser les informations ci-dessus relatives à leurs images préférées. Dans cette tâche, vous devez également ajouter une fonctionnalité permettant aux utilisateurs de visualiser les informations liées à leur propre profil d'utilisateur.
 
-## Système de recommandation
+### Système de recommandation
 
 Êtes-vous maintenant prêt à recommander des images à un utilisateur ? Dans cette tâche, votre objectif est de construire le système de recommandation. Quelle approche avez-vous décidé de prendre ? Filtrage collaboratif, basé sur le contenu ou une approche hybride ? Pour chaque utilisateur, êtes-vous maintenant en mesure de construire une profil ? Quel type d'information avez-vous utilisé pour établir un profil d'utilisateur profil ? Qu'est-ce qui manque ? Quelles sont les limites de votre proposition ?
 
-## Tests
+### Tests
 
 Votre prochaine tâche consiste à mettre au point et à effectuer différents tests sur votre proposition système. Les différentes fonctions sont-elles fonctionnelles ? Comment avez-vous testé votre projet ? Comment vérifiez-vous que votre système de recommandation fonctionne ?
 
-## Rapport
+### Rapport
 
 Votre tâche finale consiste à préparer un rapport de 5 pages sur le projet (en français ou en anglais) en format PDF, qui détaille les points suivants :
 
@@ -108,7 +110,8 @@ Votre tâche finale consiste à préparer un rapport de 5 pages sur le projet (e
 
 **Note** : Veuillez n'ajouter aucun programme (ou code) dans ce rapport.
 
-## Soumission
+### Soumission
+
 
 - Veuillez **ne pas** soumettre vos images.
 - Renommez votre rapport de projet sous le nom de Nom1\_Nom2\_\[Nom3\].pdf, où Nom1, Nom2, etc. sont vos noms.
@@ -116,7 +119,7 @@ Votre tâche finale consiste à préparer un rapport de 5 pages sur le projet (e
 - Compressez et renommez votre travail de projet comme Nom1\_Nom2\_\[Nom3\].zip, où Nom1, Nom2 sont vos noms.
 - Soumettez votre **projet** en ligne.
 
-## Évaluation
+### Évaluation
 
 
 Les critères d'évaluation des projets sont indiqués ci-dessous : 
@@ -149,3 +152,30 @@ Les critères d'évaluation des projets sont indiqués ci-dessous :
     3. Bibliographie
 
 **Rémarque**: Vous pouvez consulter des [exemples supplémentaires](../../examples) de notebooks.
+
+## Projet partie 2
+
+L'objectif de cette partie est de modulariser les différentes tâches effectuées dans la partie 1
+et de créer des composants installables pour chacune d'entre elles en utilisant Docker.
+
+Pour cette partie, vous devez identifier les différentes tâches indépendantes de la partie 1
+de votre projet.
+Une fois ces tâches identifiées, effectuez les opérations suivantes sur chaque tâche :
+1. Identifiez la partie répétitive (par exemple, les boucles).
+2. Remplacer la partie répétitive par map-reduce, expressions lambda et pyspark.
+3. Créez un conteneur Docker pour cette tâche.
+4. Utilisez des volumes Docker pour le partage de fichiers (CSV, JSON, images, etc.) entre les conteneurs.
+
+Vous devez disposer d'un minimum de trois conteneurs pour votre projet.
+Par exemple, un conteneur Docker pour l'acquisition des données, un autre pour l'analyse des données et un autre pour la recommandation.
+Vous pouvez avoir des conteneurs supplémentaires.
+
+### Évaluation
+
+Les critères d'évaluation du projet sont donnés ci-dessous :
+1. Création de différentes tâches indépendantes.
+2. Utilisation de volumes Docker pour le partage de données entre différents conteneurs.
+3. Utilisation du framework map-reduce et des expressions lambda.
+4. Utilisation de pyspark.
+
+**Rémarque**: Vous pouvez consulter des [exemples supplémentaires](../../containers) de Docker.

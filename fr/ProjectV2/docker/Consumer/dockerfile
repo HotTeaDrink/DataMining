@@ -1,0 +1,19 @@
+FROM jupyter/pyspark-notebook:latest
+
+# Copy your Python script into the image
+COPY consumer.py /home/jovyan/work/
+
+# Set the working directory
+WORKDIR /home/jovyan/work/
+
+# Install additional dependencies if needed
+RUN pip install --upgrade pip
+
+RUN pip install requests pika
+
+RUN pip install pyspark
+
+# Set any other configurations or environment variables if needed
+
+# Command to run your Python script
+CMD ["sh", "-c", "sleep 15 && python consumer.py"]

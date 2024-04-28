@@ -1,0 +1,22 @@
+services:
+  producer:
+    build: ./docker/Producer
+    depends_on:
+      - rabbitmq
+
+  consumer:
+    build: ./docker/Consumer
+    volumes:
+      - ./shared_data:/home/jovyan/work/downloads
+    deploy:
+      mode: replicated
+      replicas: 4
+    depends_on:
+      - rabbitmq
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    restart: unless-stopped

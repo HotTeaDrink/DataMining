@@ -48,6 +48,14 @@ services:
       depends_on:
         - metadata
         - mongodb
+  
+  visualisation:
+      build: ./docker/Visualisation
+      volumes:
+      - ./shared_data:/app/downloads
+      depends_on:
+        - metadata
+        - mongodb
 
   rabbitmq:
     image: rabbitmq:3-management
